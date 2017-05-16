@@ -20,7 +20,7 @@
 require './apply.rb'
 
 class Development
-	attr_reader :single_incomes, :double_incomes, :triple_incomes, :floor_availability, :floors
+	attr_reader :single_incomes, :double_incomes, :triple_incomes, :floor_availability, :floors, :units
 
 	def initialize floors
 		@floors = floors
@@ -30,6 +30,12 @@ class Development
 		@floor_availability = ["2", "2 and 3", "2-4", "2-5", "2-6", "2-7", "2-8"]
 		@units = []
 	end
+
+	def add_space bedrooms, floor
+		apt = Apartment.new(bedrooms, floor)
+		@units.push(apt)
+	end
+
 end
 
 class Floor #5-6 units possible per floor
@@ -45,7 +51,6 @@ class Space
 	attr_reader :unit_count
 	def initialize
 		@unit_count = 1
-		
 	end
 end
 
@@ -55,7 +60,6 @@ class Apartment < Space
 		@bedrooms = bedrooms
 		@floor = floor
 		@rate = calc_rate
-
 	end
 
 	def calc_rate
@@ -215,7 +219,9 @@ end
 
 development = Development.new(10)
 
-new_space = Apartment.new(2,3)
+development.add_space(2,3)
+
+# new_space = Apartment.new(2,3)
 
 new_renter = Tenant.new
 
